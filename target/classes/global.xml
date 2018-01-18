@@ -15,9 +15,23 @@ http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/cu
         <http:raml-api-configuration location="https://anypoint.mulesoft.com/exchange/api/v1/organizations/a800f282-db5f-4559-b320-71d827009512/assets/a800f282-db5f-4559-b320-71d827009512/american-flights-api/1.0.0/api/root"/>
     </http:request-config>
     <ws:consumer-config name="Delta_Web_Service_Consumer" wsdlLocation="http://mu.mulesoft-training.com/essentials/delta?wsdl" service="TicketServiceService" port="TicketServicePort" serviceAddress="http://training-u.cloudhub.io/essentials/delta" doc:name="Web Service Consumer"/>
+
+
     <configuration defaultExceptionStrategy-ref="choice_Exception_Strategy" doc:name="Configuration">
-        <http:config useTransportForUris="false"/>
+        <expression-language>
+        	<global-functions>
+        		def getNumSeats(type){
+        			if (type.contains('737')){
+        				return 150;
+        			} else {
+        				return 300;
+        			}
+        		}
+        	</global-functions>
+        </expression-language>
     </configuration>
+    
+    
     <payload-type-filter expectedType="java.util.ArrayList" name="Filter_Not_ArrayList" doc:name="Payload"/>
     
     <choice-exception-strategy name="choice_Exception_Strategy" >
